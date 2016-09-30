@@ -13,18 +13,24 @@ public class HeapSort {
 		int right=2*index+2;
 		int left=2*index+1;
 		
-		if(right>=arr.length && left>=arr.length)
+		if(left>arr.length-1)
 			return;
 		heapify(arr, left);
-		heapify(arr,right);
+		
+		//System.out.println("Left "+left+" right "+right);
 		//System.out.println("checking now sides for index "+arr[index]);
-		if(arr[left]<arr[right] && arr[left]<arr[index])	//change signs for max heap
+		if( arr[left]<arr[index])	//change signs for max heap
 		{	int t=arr[index];
 			arr[index]=arr[left];
 			arr[left]=t;
 			heapify(arr, left);
 			//System.out.println("heapify : "+index);
-		}else if(arr[right]<arr[left] && arr[right]<arr[index]){//change signs for max heap
+		}
+		
+		if(right>arr.length-1)
+			return;
+		heapify(arr,right);
+		if( arr[right]<arr[index]){//change signs for max heap
 			int t=arr[index];
 			arr[index]=arr[right];
 			arr[right]=t;
