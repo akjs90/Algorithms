@@ -48,6 +48,23 @@ public class SynchronousShopping {
 		}
 		
 		sc.close();
+		System.out.println("Number of Shops:- "+N);
+		System.out.println("Number of Fishes:- "+K);
+		System.out.println("List of fishes found in each shop");
+		for(int i:shopDesc.keySet()){
+			System.out.print("Shop "+i+" - ");
+			for(int j:shopDesc.get(i)){
+				System.out.print(j+" ");
+			}
+			System.out.println();
+		}
+		System.out.println("Path connecting shops");
+		for(int i=0;i<N;i++){
+			for(int j=0;j<N;j++)
+				System.out.print(adjMatrix[i][j]+" ");
+			System.out.println();
+		}
+		
 	}
 
 }

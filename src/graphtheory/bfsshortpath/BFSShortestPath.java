@@ -9,7 +9,7 @@ import java.util.Scanner;
  * <h2>Breadth First Search: Shortest Reach</h2>
  * <p>
  * Consider an undirected graph consisting of <i>n</i> nodes where each node is
- * labeled from 1 to <i>n</n> and the edge between any two nodes is always of
+ * labeled from 1 to <i>n</i> and the edge between any two nodes is always of
  * length 6. We define node <i>s</i> to be the starting position for a BFS.
  * </p>
  * <p>
