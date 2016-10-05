@@ -38,7 +38,11 @@ import java.util.Scanner;
  * </ul>
  */
 public class BFSShortestPath {
-
+	/*
+	 * Following program works with help of map and arraylist and no queue fo
+	 * tracking the nodes to be visited next to make it proper bfs search use
+	 * queue
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		HashMap<Integer, ArrayList<Integer>> adjacenyList = new HashMap<>();
@@ -54,7 +58,7 @@ public class BFSShortestPath {
 			int[] distance = new int[n]; // initialize distance of node from
 											// start to high value.
 			for (int i = 0; i < n; i++)
-				distance[i] = 999999;
+				distance[i] = -1;
 
 			for (int i = 0; i < m; i++) { // for edge
 				int u = sc.nextInt(); // node u
@@ -69,35 +73,37 @@ public class BFSShortestPath {
 				adjacenyList.put(v, al); // add u in v's adjacencylist
 			}
 			int start = sc.nextInt();
-			distance[start-1]=0;
+			distance[start - 1] = 0;
 			findShortestPath(adjacenyList, start, visited, distance);
 			q--;
 
+			for (int i : distance)
+				if (i != 0)
+					System.out.print(i + " ");
+			System.out.println();
+			System.out.println(Arrays.toString(distance));
 		}
-		/*for (int i : adjacenyList.keySet()) {
-			System.out.println("for node " + i);
-			for (int j : adjacenyList.get(i))
-				System.out.print(" " + j + ",");
-		}*/
-
 		sc.close();
 	}
 
-	private static void findShortestPath(HashMap<Integer, ArrayList<Integer>> graph, int start, boolean[]  visited, int[] distance) {
-		if(visited[start - 1])
+	private static void findShortestPath(HashMap<Integer, ArrayList<Integer>> graph, int start, boolean[] visited,
+			int[] distance) {
+		if (visited[start - 1])
 			return;
 		visited[start - 1] = true;
-		ArrayList<Integer> adlist=graph.get(start);
-		System.out.println("checking root  "+start);
-		for(int ele:adlist){
-			
-			int d=distance[start-1]+6;
-			System.out.println("element "+ele+" from adjancey list distance "+d);
-			if(d<distance[ele-1])
-				distance[ele-1]=d;
-			findShortestPath(graph, ele, visited, distance);
+		ArrayList<Integer> adlist = graph.get(start);
+		System.out.println("Source " + start);
+		for (int ele : adlist) {
+
+			int d = distance[start - 1] + 6;
+			System.out.println("Distance of node " + ele + " from source is " + d);
+			if (distance[ele - 1] == -1 || d < distance[ele - 1])
+				distance[ele - 1] = d;
+
 		}
-		System.out.println(Arrays.toString(distance));
+		for (int ele : adlist)
+			findShortestPath(graph, ele, visited, distance);
+
 	}
 
 }
