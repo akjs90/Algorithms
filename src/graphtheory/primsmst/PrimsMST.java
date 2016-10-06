@@ -32,7 +32,7 @@ public class PrimsMST {
 			int min_node=findMin(distance, mst);
 			mst.add(min_node+1);
 			for(int v=0;v<N;v++){
-				if(adjMat[min_node][v]!=0 && !mst.contains(v+1) && distance[v]>adjMat[min_node][v] ){
+				if(min_node!=-1 && adjMat[min_node][v]!=0 && !mst.contains(v+1) && distance[v]>adjMat[min_node][v] ){
 					parent[v]=min_node;
 					distance[v]=adjMat[min_node][v];
 				}
@@ -45,6 +45,7 @@ public class PrimsMST {
 				System.out.println(i+" is root");
 			else
 			System.out.println(i+ " parent is "+ (parent[i-1]+1) +" distance is "+distance[i-1]);*/
+			if(i>0)
 			sum+=distance[i-1];
 		}
 		System.out.println(sum);
