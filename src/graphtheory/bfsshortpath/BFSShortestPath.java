@@ -39,11 +39,8 @@ import java.util.Scanner;
  */
 public class BFSShortestPath {
 	/*
-	 * Following program works with help of map and arraylist and no queue fo
-	 * tracking the nodes to be visited next to make it proper bfs search use
-	 * queue
-	 */
-	public static void main(String[] args) {
+	 * Following program works with help of map and arraylist and no queue fo tracking the nodes to be visited next to make it prop*/
+	public static void main(String[] args) { 
 		// TODO Auto-generated method stub
 		HashMap<Integer, ArrayList<Integer>> adjacenyList = new HashMap<>();
 		Scanner sc = new Scanner(System.in);
@@ -94,12 +91,12 @@ public class BFSShortestPath {
 		ArrayList<Integer> adlist = graph.get(start);
 		System.out.println("Source " + start);
 		for (int ele : adlist) {
-
-			int d = distance[start - 1] + 6;
-			System.out.println("Distance of node " + ele + " from source is " + d);
-			if (distance[ele - 1] == -1 || d < distance[ele - 1])
-				distance[ele - 1] = d;
-
+		
+				int d = distance[start - 1] + 6;
+				System.out.println("Distance of node " + ele + " from source is " + d);
+				if (distance[ele - 1] == -1 || d < distance[ele - 1])
+					distance[ele - 1] = d;
+			
 		}
 		for (int ele : adlist)
 			findShortestPath(graph, ele, visited, distance);
