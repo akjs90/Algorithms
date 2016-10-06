@@ -48,7 +48,7 @@ public class BFSShortestPath {
 		while (q > 0) {
 			int n = sc.nextInt(); // nodes
 			for (int i = 0; i < n; i++)
-				adjacenyList.put(i + 1, new ArrayList<>());
+				adjacenyList.put(i + 1, new ArrayList<Integer>());
 			int m = sc.nextInt(); // edges
 
 			boolean[] visited = new boolean[n];// initialize visited to false.
