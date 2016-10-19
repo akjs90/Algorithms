@@ -1,2 +1,3 @@
 #exclude tracking of bin/
 /bin/*
+/.settings/*

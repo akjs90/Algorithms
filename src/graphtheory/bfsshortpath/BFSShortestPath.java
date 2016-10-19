@@ -39,8 +39,10 @@ import java.util.Scanner;
  */
 public class BFSShortestPath {
 	/*
-	 * Following program works with help of map and arraylist and no queue fo tracking the nodes to be visited next to make it prop*/
-	public static void main(String[] args) { 
+	 * Following program works with help of map and arraylist and no queue fo
+	 * tracking the nodes to be visited next to make it prop
+	 */
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		HashMap<Integer, ArrayList<Integer>> adjacenyList = new HashMap<>();
 		Scanner sc = new Scanner(System.in);
@@ -50,7 +52,7 @@ public class BFSShortestPath {
 			for (int i = 0; i < n; i++)
 				adjacenyList.put(i + 1, new ArrayList<Integer>());
 			int m = sc.nextInt(); // edges
-
+			
 			boolean[] visited = new boolean[n];// initialize visited to false.
 			int[] distance = new int[n]; // initialize distance of node from
 											// start to high value.
@@ -69,38 +71,48 @@ public class BFSShortestPath {
 				al.add(u);
 				adjacenyList.put(v, al); // add u in v's adjacencylist
 			}
+			
 			int start = sc.nextInt();
 			distance[start - 1] = 0;
-			findShortestPath(adjacenyList, start, visited, distance);
+			
+			ArrayList<Integer> queue=new ArrayList<>();
+			queue.add(start);
+			while(!queue.isEmpty()){
+				findShortestPath(adjacenyList, queue.remove(0), visited, distance, queue);
+			}
+			
 			q--;
 
 			for (int i : distance)
 				if (i != 0)
 					System.out.print(i + " ");
 			System.out.println();
-			System.out.println(Arrays.toString(distance));
+			//System.out.println(Arrays.toString(distance));
 		}
 		sc.close();
 	}
 
 	private static void findShortestPath(HashMap<Integer, ArrayList<Integer>> graph, int start, boolean[] visited,
-			int[] distance) {
+			int[] distance, ArrayList<Integer> queue) {
 		if (visited[start - 1])
 			return;
 		visited[start - 1] = true;
 		ArrayList<Integer> adlist = graph.get(start);
-		System.out.println("Source " + start);
-		for (int ele : adlist) {
+		//System.out.println("Source " + start);
 		
+		for (int ele : adlist) {
+			if (!visited[ele - 1]) {
 				int d = distance[start - 1] + 6;
-				System.out.println("Distance of node " + ele + " from source is " + d);
+				//System.out.println("Distance of node " + ele + " from source is " + d);
 				if (distance[ele - 1] == -1 || d < distance[ele - 1])
 					distance[ele - 1] = d;
-			
-		}
-		for (int ele : adlist)
-			findShortestPath(graph, ele, visited, distance);
+				//System.out.println("next pos in queue  ELEMENT TO BE ENTERED "+ele);
+				if(!queue.contains(ele))
+					queue.add(ele);
+			}
 
+		}
+	
 	}
 
 }
