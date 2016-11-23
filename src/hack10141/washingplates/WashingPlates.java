@@ -50,15 +50,16 @@ public class WashingPlates {
 		 */
 		System.out.println("Reading completed...");
 		System.out.println("here p  -- " + p.length);
-		sortPlates(diff, p, d);
+		sortQuick(diff, p, d, 0, n-1);
+		
+		//sortPlates(diff, p, d);
 
 		System.out.println("here diff" + diff[n - 1]);
 		System.out.println("here pay" + p[n - 1]);
 		System.out.println("here ded" + d[n - 1]);
 
 		BigDecimal sum_diff = new BigDecimal(0);
-		
-		
+
 		if (k >= n) {
 			for (int i : diff) {
 				sum = sum.subtract(BigDecimal.valueOf(i));
@@ -117,24 +118,29 @@ public class WashingPlates {
 		}
 
 	}
-	
-	private static void sortQuick(int[] diff, int[] pay, int[] ded,int low,int high){
-		int pi=partition(diff, low, high);
-		sortQuick(diff, pay, ded, low, pi-1);
-		sortQuick(diff, pay, ded, pi+1, high);
+
+	private static void sortQuick(int[] diff, int[] pay, int[] ded, int low, int high) {
+		if (low < high) {
+			int pi = partition(diff, low, high);
+			sortQuick(diff, pay, ded, low, pi - 1);
+			sortQuick(diff, pay, ded, pi + 1, high);
+		}
 	}
-	
-	private static int partition(int[] diff,int low,int high){
-		int pivot=diff[high];
-		int j=low;
-		for(int i=low;i<high;i++){
-			if(diff[i]<pivot){
-				int t=diff[j];
-				diff[j]=diff[i];
-				diff[i]=t;
+
+	private static int partition(int[] diff, int low, int high) {
+		int pivot = diff[high];
+		int j = low;
+		for (int i = low; i < high; i++) {
+			if (diff[i] < pivot) {
+				int t = diff[j];
+				diff[j] = diff[i];
+				diff[i] = t;
 				j++;
 			}
 		}
+		diff[high] = diff[j];
+		diff[j] = pivot;
+		return j;
 	}
 
 }
