@@ -3,6 +3,7 @@ package codeval;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +29,9 @@ public class PokerHands {
 	static final String RIGHT;
 	static Map<Character, Integer> cardValues;
 	static {
-		LEFT = "Left";
-		RIGHT = "Right";
-		NONE = "None";
+		LEFT = "left";
+		RIGHT = "right";
+		NONE = "none";
 		cardValues = new HashMap<Character, Integer>(14, 1) {
 			private static final long serialVersionUID = 1L;
 			{
@@ -54,8 +55,8 @@ public class PokerHands {
 
 	public static void main(String[] args) {
 
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream("D:\\pokerhand.txt")));) {
+		try (BufferedReader br = new BufferedReader(
+				new InputStreamReader(new FileInputStream("/home/akshay/Desktop/pokerhand.input")));) {
 			String s;
 			while ((s = br.readLine()) != null) {
 				String[] splitString = s.split(" ");
@@ -66,71 +67,27 @@ public class PokerHands {
 					else
 						rightHand[i - 5] = splitString[i];
 				}
-				System.out.println("Left Hand: " + Arrays.toString(leftHand)
-						+ " Right Hand: " + Arrays.toString(rightHand));
 				SortCard(leftHand);
 				SortCard(rightHand);
-				System.out.println("Left Hand Sorted : "
-						+ Arrays.toString(leftHand) + " Right Hand Sorted: "
-						+ Arrays.toString(rightHand));
-				System.out.println("High card : "
-						+ HighCard(leftHand, rightHand));
-				boolean leftOnePair = checkPair(leftHand, 1);
-				boolean rightOnePair = checkPair(rightHand, 1);
-				boolean leftTwoPair = false;
-				boolean rightTwoPair = false;
-				if (leftOnePair)
-					leftTwoPair = checkPair(leftHand, 2);
-				if (rightOnePair)
-					rightTwoPair = checkPair(rightHand, 2);
+				//System.out.println("Left Hand Sorted : " + Arrays.toString(leftHand) + " Right Hand Sorted: "
+				//		+ Arrays.toString(rightHand));
 
-				System.out.println("Check OnePair left  & right :"
-						+ leftOnePair + " " + rightOnePair);
-				System.out.println("Check TwoPair left  & right :"
-						+ leftTwoPair + " " + rightTwoPair);
+			//	System.out.println("High card : " + HighCard(leftHand, rightHand));
 
-				boolean leftThreeKind = false;
-				boolean rightThreeKind = false;
-				if (leftOnePair || leftTwoPair)
-					leftThreeKind = nOfAKind(leftHand, 3);
-				if (rightOnePair || rightTwoPair)
-					rightThreeKind = nOfAKind(rightHand, 3);
+				int leftRank = checkRanks(leftHand), rightRank = checkRanks(rightHand);
+			//	System.out.println("Rank of Left Hand : " + leftRank + " Rank of Right Hand : " + rightRank);
 
-				System.out.println("Check ThreeOfKind left  & right :"
-						+ leftThreeKind + " " + rightThreeKind);
-
-				boolean left4Kind = false;
-				boolean right4Kind = false;
-				if (leftOnePair && leftThreeKind)
-					left4Kind = nOfAKind(leftHand, 4);
-				if (rightOnePair && rightThreeKind)
-					right4Kind = nOfAKind(rightHand, 4);
-
-				System.out.println("Check 4OfKind left  & right :" + left4Kind
-						+ " " + right4Kind);
-
-				System.out.println("Left flush : " + flush(leftHand)
-						+ " Right flush : " + flush(rightHand));
-				if (leftTwoPair && leftThreeKind)
-					System.out.println("Full House Left");
-				if (rightTwoPair && rightThreeKind)
-					System.out.println("Full House Right");
-
-				System.out.println("Left hand straight " + straight(leftHand));
-				System.out
-						.println("Right hand straight " + straight(rightHand));
-
-				System.out.println("Left hand straight flush "
-						+ (straight(leftHand) && flush(leftHand)));
-				System.out.println("Right hand straight flush "
-						+ (straight(rightHand) && flush(rightHand)));
-
-				System.out.println("Left hand Royal flush "
-						+ royalFlush(leftHand));
-				System.out.println("Right hand Royal flush "
-						+ royalFlush(rightHand));
-
-				System.out.println();
+				if (leftRank > rightRank)
+					System.out.println(LEFT);
+				else if (rightRank > leftRank)
+					System.out.println(RIGHT);
+				else {
+					if (leftRank == 2 || leftRank == 3)
+						System.out.println(checkSamePair(leftHand, rightHand));
+					else
+						System.out.println(HighCard(leftHand, rightHand));
+				}
+				//System.out.println();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -147,9 +104,7 @@ public class PokerHands {
 		for (int i = 1; i < 5; i++) {
 			int j = i;
 			String temp = hand[j];
-			while (j > 0
-					&& (cardValues.get(hand[j - 1].charAt(0)) > cardValues
-							.get(temp.charAt(0)))) {
+			while (j > 0 && (cardValues.get(hand[j - 1].charAt(0)) > cardValues.get(temp.charAt(0)))) {
 				hand[j] = hand[j - 1];
 				j--;
 			}
@@ -163,6 +118,7 @@ public class PokerHands {
 	 * Get The High Card
 	 */
 	private static String HighCard(String[] left, String[] right) {
+
 		for (int i = 4; i >= 0; i--) {
 			int leftValue = cardValues.get(left[i].charAt(0));
 			int rightValue = cardValues.get(right[i].charAt(0));
@@ -182,8 +138,7 @@ public class PokerHands {
 		int count = 0;
 		int paired = 0;
 		for (int i = 0; i < 4; i++) {
-			if ((cardValues.get(hand[i].charAt(0)) == cardValues
-					.get(hand[i + 1].charAt(0)))
+			if ((cardValues.get(hand[i].charAt(0)) == cardValues.get(hand[i + 1].charAt(0)))
 					&& paired != cardValues.get(hand[i].charAt(0))) {
 				count++;
 				paired = cardValues.get(hand[i].charAt(0));
@@ -198,13 +153,12 @@ public class PokerHands {
 
 	/**
 	 * Check Three Of Kind
-	 * */
+	 */
 	private static boolean nOfAKind(String[] hand, int n) {
 		int count = 1;
 
 		for (int i = 0; i < 4; i++) {
-			if ((cardValues.get(hand[i].charAt(0)) == cardValues
-					.get(hand[i + 1].charAt(0)))) {
+			if ((cardValues.get(hand[i].charAt(0)) == cardValues.get(hand[i + 1].charAt(0)))) {
 				// System.out.println("in match " + count + " -- " + hand[i]);
 				count++;
 			} else
@@ -230,11 +184,10 @@ public class PokerHands {
 
 	/**
 	 * Straight
-	 * */
+	 */
 	private static boolean straight(String[] hand) {
 		for (int i = 0; i < 4; i++) {
-			if (cardValues.get(hand[i + 1].charAt(0))
-					- cardValues.get(hand[i].charAt(0)) != 1)
+			if (cardValues.get(hand[i + 1].charAt(0)) - cardValues.get(hand[i].charAt(0)) != 1)
 				return false;
 		}
 		return true;
@@ -242,11 +195,103 @@ public class PokerHands {
 
 	/**
 	 * Royal Flush
-	 * */
+	 */
 	private static boolean royalFlush(String[] hand) {
 		if (straight(hand) && flush(hand) && (hand[0].charAt(0) == 'T')) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Check Ranks
+	 */
+	private static int checkRanks(String[] hand) {
+		/* For Rank */
+
+		/* Royal Flush */
+		if (royalFlush(hand))
+			return 10;
+
+		/* Straight Flush */
+		boolean straight = straight(hand);
+		boolean flush = flush(hand);
+
+		if (straight && flush)
+			return 9;
+
+		/* Four of a Kind */
+		boolean onepair = checkPair(hand, 1);
+		boolean threeOfKind = nOfAKind(hand, 3);
+
+		if (onepair && threeOfKind && nOfAKind(hand, 4))
+			return 8;
+
+		/* Full House */
+		boolean twopair = checkPair(hand, 2);
+
+		if (twopair && threeOfKind)
+			return 7;
+
+		/* Flush */
+		if (flush)
+			return 6;
+
+		/* Straight */
+		if (straight)
+			return 5;
+
+		/* Three of A Kind */
+		if (threeOfKind)
+			return 4;
+
+		/* Two Pair */
+		if (twopair)
+			return 3;
+
+		/* One Pair */
+		if (onepair)
+			return 2;
+
+		return 0;
+
+	}
+
+	/* Same Ranks in Pair */
+	private static String checkSamePair(String[] left, String[] right) {
+		ArrayList<Integer> leftAL = new ArrayList<>(2);
+		ArrayList<Integer> rightAL = new ArrayList<>(2);
+		int pair = (checkPair(left, 2) && checkPair(right, 2)) ? 2 : 1;
+
+		int lcount = 0, rcount = 0;
+		for (int i = 0; i < 4; i++) {
+			if ((cardValues.get(left[i].charAt(0)) == cardValues.get(left[i + 1].charAt(0)))
+					&& !leftAL.contains(cardValues.get(left[i].charAt(0))) && lcount != pair) {
+				leftAL.add(cardValues.get(left[i].charAt(0)));
+				lcount++;
+			}
+			if ((cardValues.get(right[i].charAt(0)) == cardValues.get(right[i + 1].charAt(0)))
+					&& !rightAL.contains(cardValues.get(right[i].charAt(0))) && rcount != pair) {
+				rightAL.add(cardValues.get(right[i].charAt(0)));
+				rcount++;
+			}
+		}
+		/*System.out.println("Left " + Arrays.toString(leftAL.toArray()));
+		System.out.println("right " + Arrays.toString(rightAL.toArray()));*/
+
+		if ((leftAL.get(0) > rightAL.get(0)))
+			return LEFT;
+		else if ((leftAL.get(0) < rightAL.get(0)))
+			return RIGHT;
+		if(pair==2){
+			if((leftAL.get(1) > rightAL.get(1)))
+				return LEFT;
+			else if ((leftAL.get(1) < rightAL.get(1)))
+				return RIGHT;
+				
+		}
+
+		return HighCard(left, right);
+
 	}
 }
