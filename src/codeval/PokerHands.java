@@ -55,8 +55,8 @@ public class PokerHands {
 
 	public static void main(String[] args) {
 
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream("/home/akshay/Desktop/pokerhand.input")));) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(
+				new FileInputStream("D:\\pokerhand.txt")));) {
 			String s;
 			while ((s = br.readLine()) != null) {
 				String[] splitString = s.split(" ");
@@ -69,25 +69,29 @@ public class PokerHands {
 				}
 				SortCard(leftHand);
 				SortCard(rightHand);
-				//System.out.println("Left Hand Sorted : " + Arrays.toString(leftHand) + " Right Hand Sorted: "
-				//		+ Arrays.toString(rightHand));
+				// System.out.println("Left Hand Sorted : " +
+				// Arrays.toString(leftHand) + " Right Hand Sorted: "
+				// + Arrays.toString(rightHand));
 
-			//	System.out.println("High card : " + HighCard(leftHand, rightHand));
+				// System.out.println("High card : " + HighCard(leftHand,
+				// rightHand));
 
 				int leftRank = checkRanks(leftHand), rightRank = checkRanks(rightHand);
-			//	System.out.println("Rank of Left Hand : " + leftRank + " Rank of Right Hand : " + rightRank);
+				// System.out.println("Rank of Left Hand : " + leftRank +
+				// " Rank of Right Hand : " + rightRank);
 
 				if (leftRank > rightRank)
 					System.out.println(LEFT);
 				else if (rightRank > leftRank)
 					System.out.println(RIGHT);
 				else {
-					if (leftRank == 2 || leftRank == 3)
+					if (leftRank == 2 || leftRank == 3 || leftRank == 4
+							|| leftRank == 8)
 						System.out.println(checkSamePair(leftHand, rightHand));
 					else
 						System.out.println(HighCard(leftHand, rightHand));
 				}
-				//System.out.println();
+				// System.out.println();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -104,7 +108,9 @@ public class PokerHands {
 		for (int i = 1; i < 5; i++) {
 			int j = i;
 			String temp = hand[j];
-			while (j > 0 && (cardValues.get(hand[j - 1].charAt(0)) > cardValues.get(temp.charAt(0)))) {
+			while (j > 0
+					&& (cardValues.get(hand[j - 1].charAt(0)) > cardValues
+							.get(temp.charAt(0)))) {
 				hand[j] = hand[j - 1];
 				j--;
 			}
@@ -138,7 +144,8 @@ public class PokerHands {
 		int count = 0;
 		int paired = 0;
 		for (int i = 0; i < 4; i++) {
-			if ((cardValues.get(hand[i].charAt(0)) == cardValues.get(hand[i + 1].charAt(0)))
+			if ((cardValues.get(hand[i].charAt(0)) == cardValues
+					.get(hand[i + 1].charAt(0)))
 					&& paired != cardValues.get(hand[i].charAt(0))) {
 				count++;
 				paired = cardValues.get(hand[i].charAt(0));
@@ -158,7 +165,8 @@ public class PokerHands {
 		int count = 1;
 
 		for (int i = 0; i < 4; i++) {
-			if ((cardValues.get(hand[i].charAt(0)) == cardValues.get(hand[i + 1].charAt(0)))) {
+			if ((cardValues.get(hand[i].charAt(0)) == cardValues
+					.get(hand[i + 1].charAt(0)))) {
 				// System.out.println("in match " + count + " -- " + hand[i]);
 				count++;
 			} else
@@ -187,7 +195,8 @@ public class PokerHands {
 	 */
 	private static boolean straight(String[] hand) {
 		for (int i = 0; i < 4; i++) {
-			if (cardValues.get(hand[i + 1].charAt(0)) - cardValues.get(hand[i].charAt(0)) != 1)
+			if (cardValues.get(hand[i + 1].charAt(0))
+					- cardValues.get(hand[i].charAt(0)) != 1)
 				return false;
 		}
 		return true;
@@ -265,30 +274,36 @@ public class PokerHands {
 
 		int lcount = 0, rcount = 0;
 		for (int i = 0; i < 4; i++) {
-			if ((cardValues.get(left[i].charAt(0)) == cardValues.get(left[i + 1].charAt(0)))
-					&& !leftAL.contains(cardValues.get(left[i].charAt(0))) && lcount != pair) {
+			if ((cardValues.get(left[i].charAt(0)) == cardValues
+					.get(left[i + 1].charAt(0)))
+					&& !leftAL.contains(cardValues.get(left[i].charAt(0)))
+					&& lcount != pair) {
 				leftAL.add(cardValues.get(left[i].charAt(0)));
 				lcount++;
 			}
-			if ((cardValues.get(right[i].charAt(0)) == cardValues.get(right[i + 1].charAt(0)))
-					&& !rightAL.contains(cardValues.get(right[i].charAt(0))) && rcount != pair) {
+			if ((cardValues.get(right[i].charAt(0)) == cardValues
+					.get(right[i + 1].charAt(0)))
+					&& !rightAL.contains(cardValues.get(right[i].charAt(0)))
+					&& rcount != pair) {
 				rightAL.add(cardValues.get(right[i].charAt(0)));
 				rcount++;
 			}
 		}
-		/*System.out.println("Left " + Arrays.toString(leftAL.toArray()));
-		System.out.println("right " + Arrays.toString(rightAL.toArray()));*/
+		/*
+		 * System.out.println("Left " + Arrays.toString(leftAL.toArray()));
+		 * System.out.println("right " + Arrays.toString(rightAL.toArray()));
+		 */
 
 		if ((leftAL.get(0) > rightAL.get(0)))
 			return LEFT;
 		else if ((leftAL.get(0) < rightAL.get(0)))
 			return RIGHT;
-		if(pair==2){
-			if((leftAL.get(1) > rightAL.get(1)))
+		if (pair == 2) {
+			if ((leftAL.get(1) > rightAL.get(1)))
 				return LEFT;
 			else if ((leftAL.get(1) < rightAL.get(1)))
 				return RIGHT;
-				
+
 		}
 
 		return HighCard(left, right);
