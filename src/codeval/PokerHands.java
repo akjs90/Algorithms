@@ -56,7 +56,7 @@ public class PokerHands {
 	public static void main(String[] args) {
 
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream("D:\\pokerhand.txt")));) {
+				new FileInputStream("/home/akshay/Desktop/pokerhand.input")));) {
 			String s;
 			while ((s = br.readLine()) != null) {
 				String[] splitString = s.split(" ");
