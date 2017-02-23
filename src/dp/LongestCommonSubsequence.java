@@ -7,13 +7,13 @@ import java.util.Scanner;
  * <em>LCS Problem Statement:</em> Given two sequences, find the length of
  * longest subsequence present in both of them. A subsequence is a sequence that
  * appears in the same relative order, but not necessarily contiguous. For
- * example, “abc”, “abg”, “bdf”, “aeg”, ‘”acefg”, .. etc are subsequences of
- * “abcdefg”. So a string of length n has 2^n different possible subsequences.
+ * example, ï¿½abcï¿½, ï¿½abgï¿½, ï¿½bdfï¿½, ï¿½aegï¿½, ï¿½ï¿½acefgï¿½, .. etc are subsequences of
+ * ï¿½abcdefgï¿½. So a string of length n has 2^n different possible subsequences.
  * </p>
  * <p>
  * <strong>Examples:</strong><br>
- * LCS for input Sequences “ABCDGH” and “AEDFHR” is “ADH” of length 3.<br>
- * LCS for input Sequences “AGGTAB” and “GXTXAYB” is “GTAB” of length 4.<br>
+ * LCS for input Sequences ï¿½ABCDGHï¿½ and ï¿½AEDFHRï¿½ is ï¿½ADHï¿½ of length 3.<br>
+ * LCS for input Sequences ï¿½AGGTABï¿½ and ï¿½GXTXAYBï¿½ is ï¿½GTABï¿½ of length 4.<br>
  * <a href="http://www.practice.geeksforgeeks.org/problem-page.php?pid=152"
  * target="_blank" wrc_done="true"><br>
  * </a><span class="wrc0 wrc_icon wrc_injected"></span>
